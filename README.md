@@ -1,57 +1,78 @@
-# 📚 Book Recommendation System — Streamlit App
+# Book Recommendation System
+**MTech Data Analysis Project — Khushi Agrawal (AU2444006)**
 
-**MTech Data Analysis Project** by Khushi Agrawal (AU2444006)
-
-A Streamlit app featuring Content-Based (TF-IDF), Collaborative Filtering (SVD), and Hybrid recommendation models on the Book-Crossing dataset.
+A full-featured Streamlit application implementing Content-Based Filtering, Collaborative Filtering (SVD), and a Hybrid recommender on the Book-Crossing dataset.
 
 ---
 
-## 🚀 Setup & Run
+## Features
+
+- **Content-Based Filtering** — TF-IDF vectorisation of book metadata with cosine similarity
+- **Collaborative Filtering** — Truncated SVD on the user-item rating matrix
+- **Hybrid Model** — Linearly weighted combination of CB and CF scores (tunable alpha)
+- **User Segmentation** — K-Means clustering of users into 5 behavioural segments
+- **Interactive visualisations** — Cosine similarity heatmap, predicted score distributions, hybrid score breakdown, alpha sensitivity analysis
+
+---
+
+## Setup
 
 ### 1. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Add the dataset (optional)
-Download the **Book-Crossing Dataset** from Kaggle:
-👉 https://www.kaggle.com/datasets/syedjaferk/book-crossing-dataset
+### 2. Dataset
 
-Place these 3 CSV files in the **same folder** as `app.py`:
-- `BX-Books.csv`
-- `BX-Users.csv`
-- `BX-Book-Ratings.csv`
+Place the Book-Crossing CSV files in the same directory as `app.py`, or in the standard Kaggle path:
 
-> **No dataset?** The app runs in **Demo Mode** automatically using synthetic data — no setup needed!
+```
+BX-Books.csv
+BX-Users.csv
+BX-Book-Ratings.csv
+```
 
-### 3. Run the app
+The app includes a **demo mode** with synthetic data if no dataset is found, so it will run without the CSVs for development purposes.
+
+### 3. Run
+
 ```bash
 streamlit run app.py
 ```
 
-Then open your browser at: **http://localhost:8501**
+---
+
+## Tabs
+
+| Tab | Contents |
+|-----|----------|
+| Recommendations | Search any book and get top-N recommendations |
+| Content-Based Analysis | TF-IDF heatmap + per-book similarity profile |
+| Collaborative Filtering | SVD predicted score distribution + per-user top books |
+| Hybrid Model | CB vs CF score breakdown + alpha sensitivity plot |
+| Dataset Overview | Rating distribution, top authors, year histogram, popularity-quality scatter |
+| User Segments | K-Means cluster profiles + age distribution by segment |
 
 ---
 
-## 📑 App Tabs
+## Configuration
 
-| Tab | Description |
-|-----|-------------|
-| 🔍 Get Recommendations | Pick a book → get recs via CB / SVD / Hybrid |
-| 📊 Content-Based Viz   | TF-IDF cosine similarity heatmap |
-| 🤝 SVD Viz             | Predicted score distribution per user |
-| 🔀 Hybrid Viz          | CB vs CF score breakdown bar chart |
-| 📈 Dataset Overview    | Rating distribution & top authors |
+All key parameters are centralised in the `Config` class at the top of `app.py`:
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `TFIDF_MAX_FEAT` | 5000 | TF-IDF vocabulary size |
+| `MIN_USER_RATINGS` | 5 | Minimum ratings per user |
+| `MIN_BOOK_RATINGS` | 3 | Minimum ratings per book |
+| `SVD_COMPONENTS` | 40 | Latent factors for SVD |
+| `HYBRID_ALPHA` | 0.5 | Default CB/CF blend weight |
+| `N_CLUSTERS` | 5 | K-Means user segments |
+| `SAMPLE_USERS` | 4000 | Users cap for tractability |
 
 ---
 
-## 📁 Files
-```
-book_recommender/
-├── app.py              ← Main Streamlit application
-├── requirements.txt    ← Python dependencies
-├── README.md           ← This file
-├── BX-Books.csv        ← (add manually from Kaggle)
-├── BX-Users.csv        ← (add manually from Kaggle)
-└── BX-Book-Ratings.csv ← (add manually from Kaggle)
-```
+## Dataset
+
+Book-Crossing dataset (Ziegler et al., 2005):  
+https://www.kaggle.com/datasets/ruchi798/bookcrossing-dataset
